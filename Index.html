@@ -73,16 +73,17 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .box h2 {
-      margin-top: 0;
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
     }
 
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 8px;
-      margin-bottom: 15px;
       font-size: 16px;
     }
 
@@ -112,18 +113,39 @@
       font-weight: bold;
     }
 
+    button {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      background: #166534;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+    }
+
     @media (max-width: 700px) {
       .cards {
         grid-template-columns: 1fr;
+      }
+
+      .filters {
+        flex-direction: column;
       }
 
       table {
         font-size: 14px;
       }
 
-      th:nth-child(1),
-      td:nth-child(1) {
-        display: none;
+      th, td {
+        padding: 9px 5px;
       }
     }
   </style>
@@ -142,73 +164,58 @@
 
     <div class="card">
       <h3>Jumlah Anggota</h3>
-      <strong>86 Orang</strong>
+      <strong id="jumlahAnggota">0 Orang</strong>
     </div>
 
     <div class="card">
-      <h3>Iuran Per Bulan</h3>
-      <strong>Rp8.000</strong>
+      <h3>Sudah Bayar</h3>
+      <strong id="sudahBayar">0 Orang</strong>
     </div>
 
     <div class="card">
-      <h3>Target Iuran</h3>
-      <strong>Rp688.000</strong>
+      <h3>Total Kas</h3>
+      <strong id="totalKas">Rp0</strong>
     </div>
 
   </div>
 
   <div class="box">
 
-    <h2>Daftar Anggota</h2>
+    <h2>Iuran Agustus 2026</h2>
 
-    <input
-      type="text"
-      id="search"
-      placeholder="Cari nama anggota..."
-      onkeyup="cariAnggota()"
-    >
+    <div class="filters">
+      <input
+        type="text"
+        id="search"
+        placeholder="Cari nama anggota..."
+        oninput="tampilkanData()"
+      >
 
-    <table>
+      <select id="filterRT" onchange="tampilkanData()">
+        <option value="">Semua RT</option>
+        <option value="RT 08">RT 08</option>
+        <option value="RT 09">RT 09</option>
+        <option value="RT 10">RT 10</option>
+        <option value="RT 11">RT 11</option>
+      </select>
+    </div>
+
+    <div id="loading" class="loading">
+      Memuat data anggota...
+    </div>
+
+    <table id="tabel" style="display:none;">
       <thead>
         <tr>
           <th>No</th>
           <th>Nama</th>
           <th>RT</th>
           <th>Status</th>
+          <th>Aksi</th>
         </tr>
       </thead>
 
-      <tbody id="daftarAnggota">
-
-        <tr>
-          <td>1</td>
-          <td>Supri</td>
-          <td>08</td>
-          <td class="belum">Belum Bayar</td>
-        </tr>
-
-        <tr>
-          <td>2</td>
-          <td>Edwar</td>
-          <td>08</td>
-          <td class="belum">Belum Bayar</td>
-        </tr>
-
-        <tr>
-          <td>3</td>
-          <td>Heti</td>
-          <td>08</td>
-          <td class="belum">Belum Bayar</td>
-        </tr>
-
-        <tr>
-          <td>4</td>
-          <td>Rizal</td>
-          <td>08</td>
-          <td class="belum">Belum Bayar</td>
-        </tr>
-
-      </tbody>
+      <tbody id="daftarAnggota"></tbody>
     </table>
 
   </div>
@@ -217,34 +224,242 @@
 
 <script>
 
-function cariAnggota() {
+const SUPABASE_URL =
+  "https://iuebrtptddbwgfajrmrb.supabase.co";
 
-  let input = document
-    .getElementById("search")
+const SUPABASE_KEY =
+  "sb_publishable_2mXlRe4EDRedMVvvbsF2zg_7hFYBNb6";
+
+let dataAnggota = [];
+
+
+async function ambilData() {
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/anggota?select=id,rt,nama&order=rt,nama",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Gagal mengambil data anggota");
+    }
+
+    const anggota = await response.json();
+
+
+    const responseIuran = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/iuran?select=id,anggota_id,bulan,tahun,jumlah,status&bulan=eq.Agustus&tahun=eq.2026",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!responseIuran.ok) {
+      throw new Error("Gagal mengambil data iuran");
+    }
+
+    const iuran = await responseIuran.json();
+
+
+    dataAnggota = anggota.map(orang => {
+
+      const pembayaran = iuran.find(
+        item => item.anggota_id === orang.id
+      );
+
+      return {
+        ...orang,
+        iuran_id: pembayaran ? pembayaran.id : null,
+        jumlah: pembayaran ? pembayaran.jumlah : 8000,
+        status: pembayaran ? pembayaran.status : false
+      };
+
+    });
+
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("tabel").style.display = "table";
+
+    tampilkanData();
+
+  } catch (error) {
+
+    document.getElementById("loading").innerHTML =
+      "Gagal memuat data: " + error.message;
+
+  }
+
+}
+
+
+function tampilkanData() {
+
+  const search =
+    document.getElementById("search")
     .value
     .toLowerCase();
 
-  let rows = document
-    .getElementById("daftarAnggota")
-    .getElementsByTagName("tr");
+  const filterRT =
+    document.getElementById("filterRT")
+    .value;
 
-  for (let i = 0; i < rows.length; i++) {
+  const hasil = dataAnggota.filter(orang => {
 
-    let nama = rows[i]
-      .getElementsByTagName("td")[1];
+    const cocokNama =
+      orang.nama.toLowerCase().includes(search);
 
-    if (nama) {
+    const cocokRT =
+      filterRT === "" ||
+      orang.rt === filterRT;
 
-      let teks = nama.textContent.toLowerCase();
+    return cocokNama && cocokRT;
 
-      rows[i].style.display =
-        teks.includes(input) ? "" : "none";
+  });
+
+
+  const tbody =
+    document.getElementById("daftarAnggota");
+
+  tbody.innerHTML = "";
+
+
+  hasil.forEach((orang, index) => {
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+
+      <td>${index + 1}</td>
+
+      <td>${orang.nama}</td>
+
+      <td>${orang.rt}</td>
+
+      <td class="${orang.status ? "lunas" : "belum"}">
+        ${orang.status ? "Lunas" : "Belum Bayar"}
+      </td>
+
+      <td>
+        <button onclick="ubahStatus(${orang.iuran_id}, ${orang.status})">
+          ${orang.status ? "Batalkan" : "Bayar"}
+        </button>
+      </td>
+
+    `;
+
+    tbody.appendChild(tr);
+
+  });
+
+
+  updateStatistik();
+
+}
+
+
+function updateStatistik() {
+
+  const jumlah =
+    dataAnggota.length;
+
+  const sudah =
+    dataAnggota.filter(
+      orang => orang.status
+    ).length;
+
+  const total =
+    dataAnggota
+      .filter(orang => orang.status)
+      .reduce(
+        (sum, orang) => sum + orang.jumlah,
+        0
+      );
+
+
+  document.getElementById("jumlahAnggota")
+    .textContent = jumlah + " Orang";
+
+  document.getElementById("sudahBayar")
+    .textContent = sudah + " Orang";
+
+  document.getElementById("totalKas")
+    .textContent =
+      "Rp" + total.toLocaleString("id-ID");
+
+}
+
+
+async function ubahStatus(id, statusSekarang) {
+
+  if (!id) {
+    alert("Data iuran tidak ditemukan.");
+    return;
+  }
+
+
+  const statusBaru =
+    !statusSekarang;
+
+
+  const response = await fetch(
+    SUPABASE_URL +
+    "/rest/v1/iuran?id=eq." + id,
+    {
+      method: "PATCH",
+
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+
+      body: JSON.stringify({
+        status: statusBaru
+      })
 
     }
+  );
+
+
+  if (!response.ok) {
+
+    alert("Gagal mengubah status pembayaran.");
+
+    return;
   }
+
+
+  const orang =
+    dataAnggota.find(
+      item => item.iuran_id === id
+    );
+
+  if (orang) {
+    orang.status = statusBaru;
+  }
+
+
+  tampilkanData();
+
 }
+
+
+ambilData();
 
 </script>
 
 </body>
-  </html>
+</html>
