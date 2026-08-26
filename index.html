@@ -249,8 +249,11 @@ async function ambilData() {
     );
 
     if (!response.ok) {
-      throw new Error("Gagal mengambil data anggota");
-    }
+  const errorText = await response.text();
+  throw new Error(
+    "Supabase anggota: " + response.status + " - " + errorText
+  );
+  }
 
     const anggota = await response.json();
 
