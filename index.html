@@ -3,60 +3,310 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kas MMG</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#f4f6f8;color:#222}
-header{background:#166534;color:white;padding:25px 20px;text-align:center}
-header h1{margin:0 0 8px;font-size:28px}
-header p{margin:0;opacity:.9}
-.container{max-width:1100px;margin:auto;padding:20px}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 8px #0001}
-.card h3{margin:0 0 8px;color:#666;font-size:13px}
-.card strong{font-size:20px;color:#166534}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
-.nav button{background:white;color:#166534;border:1px solid #166534}
-.nav button.active{background:#166534;color:white}
-.box{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px #0001;margin-bottom:18px}
-.controls,.filters{display:flex;gap:10px;margin-bottom:15px}
-input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;font-size:15px}
-button{border:0;padding:9px 13px;border-radius:7px;cursor:pointer;background:#166534;color:white}
-button.danger{background:#dc2626}
-button.secondary{background:#64748b}
-button.small{padding:6px 9px;font-size:13px}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px 7px;border-bottom:1px solid #eee;text-align:left}
-th{background:#f0fdf4;color:#166534}
-.lunas{color:#15803d;font-weight:bold}
-.belum{color:#dc2626;font-weight:bold}
-.masuk{color:#15803d;font-weight:bold}
-.keluar{color:#dc2626;font-weight:bold}
-.loading{text-align:center;padding:20px}
-.error{background:#fee2e2;color:#991b1b;padding:12px;border-radius:8px;margin-bottom:15px}
-.success{background:#dcfce7;color:#166534;padding:12px;border-radius:8px;margin-bottom:15px}
-.hidden{display:none!important}
-.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:15px;z-index:20}
-.modal-content{background:white;border-radius:12px;padding:20px;width:100%;max-width:500px;max-height:90vh;overflow:auto}
-.modal-content h2{margin-top:0}
-.form-group{margin-bottom:12px}
-.form-group label{display:block;margin-bottom:5px;font-weight:bold;font-size:14px}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
-.summary div{background:#f8fafc;padding:15px;border-radius:8px}
-.login-status{text-align:right;margin-bottom:10px;font-size:14px}
-.badge{padding:4px 8px;border-radius:12px;font-size:12px}
-.badge.admin{background:#dcfce7;color:#166534}
-.badge.public{background:#e2e8f0;color:#475569}
-@media(max-width:800px){
-.cards{grid-template-columns:repeat(2,1fr)}
+*{
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
 }
+
+body{
+  margin:0;
+  background:#f4f6f8;
+  color:#222;
+}
+
+header{
+  background:#0f172a;
+  color:white;
+  padding:25px 20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
+
+header p{
+  margin:0;
+  opacity:.9;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #0001;
+}
+
+.card h3{
+  margin:0 0 8px;
+  color:#666;
+  font-size:13px;
+}
+
+.card strong{
+  font-size:20px;
+  color:#0f172a;
+}
+
+.nav{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.nav button{
+  background:white;
+  color:#0f172a;
+  border:1px solid #0f172a;
+}
+
+.nav button.active{
+  background:#0f172a;
+  color:white;
+}
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #0001;
+  margin-bottom:18px;
+}
+
+.controls,
+.filters{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+input,
+select{
+  width:100%;
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:15px;
+}
+
+button{
+  border:0;
+  padding:9px 13px;
+  border-radius:7px;
+  cursor:pointer;
+  background:#0f172a;
+  color:white;
+}
+
+button:hover{
+  opacity:.85;
+}
+
+button.danger{
+  background:#dc2626;
+}
+
+button.secondary{
+  background:#64748b;
+}
+
+button.small{
+  padding:6px 9px;
+  font-size:13px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:10px 7px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th{
+  background:#f1f5f9;
+  color:#0f172a;
+}
+
+.lunas,
+.masuk{
+  color:#15803d;
+  font-weight:bold;
+}
+
+.belum,
+.keluar{
+  color:#dc2626;
+  font-weight:bold;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:20;
+}
+
+.modal-content{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  width:100%;
+  max-width:500px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.modal-content h2{
+  margin-top:0;
+}
+
+.form-group{
+  margin-bottom:12px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:5px;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.summary div{
+  background:#f8fafc;
+  padding:15px;
+  border-radius:8px;
+}
+
+.login-status{
+  text-align:right;
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+.badge{
+  padding:4px 8px;
+  border-radius:12px;
+  font-size:12px;
+}
+
+.badge.admin{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge.public{
+  background:#e2e8f0;
+  color:#475569;
+}
+
+.total-box{
+  background:#0f172a;
+  color:white;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+.total-box strong{
+  font-size:24px;
+}
+
+@media(max-width:800px){
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
 @media(max-width:600px){
-.cards{grid-template-columns:1fr 1fr}
-.controls,.filters{flex-direction:column}
-table{font-size:13px}
-th,td{padding:8px 4px}
-.summary{grid-template-columns:1fr}
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .controls,
+  .filters{
+    flex-direction:column;
+  }
+
+  table{
+    font-size:13px;
+  }
+
+  th,
+  td{
+    padding:8px 4px;
+  }
+
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:24px;
+  }
+
 }
 </style>
 </head>
@@ -64,52 +314,1691 @@ th,td{padding:8px 4px}
 <body>
 
 <header>
+
 <h1>Kas MMG</h1>
-<p>Manajemen Kas Muda-Mudi Gelang</p>
+
+<p>
+MMG (Muda Mudi Gelang) —
+#OwnThePresentLeadTheFuture
+</p>
+
 </header>
 
 <div class="container">
 
+<!-- LOGIN -->
+
 <div class="login-status">
-<span id="statusLogin" class="badge public">Pengunjung</span>
-<button id="btnLogin" onclick="bukaLogin()">Login Admin</button>
-<button id="btnLogout" onclick="logout()" class="danger hidden">Logout</button>
+
+<span id="statusLogin" class="badge public">
+Pengunjung
+</span>
+
+<button id="btnLogin" onclick="bukaLogin()">
+Login Admin
+</button>
+
+<button
+id="btnLogout"
+onclick="logout()"
+class="danger hidden">
+Logout
+</button>
+
 </div>
 
 <div id="pesan"></div>
 
+
+<!-- KARTU -->
+
 <div class="cards">
+
 <div class="card">
+
 <h3>Jumlah Anggota</h3>
-<strong id="jumlahAnggota">0 Orang</strong>
+
+<strong id="jumlahAnggota">
+0 Orang
+</strong>
+
 </div>
+
+
 <div class="card">
+
 <h3>Sudah Bayar</h3>
-<strong id="sudahBayar">0 Orang</strong>
+
+<strong id="sudahBayar">
+0 Orang
+</strong>
+
 </div>
+
+
 <div class="card">
+
 <h3>Tunggakan</h3>
-<strong id="tunggakan">0 Orang</strong>
+
+<strong id="tunggakan">
+0 Orang
+</strong>
+
 </div>
+
+
 <div class="card">
-<h3>Kas Iuran</h3>
-<strong id="totalIuran">Rp0</strong>
+
+<h3>Total Iuran</h3>
+
+<strong id="totalIuran">
+Rp0
+</strong>
+
 </div>
+
 </div>
+
+
+<!-- NAVIGASI -->
 
 <div class="nav">
-<button class="active" onclick="bukaHalaman('dashboard',this)">Dashboard</button>
-<button onclick="bukaHalaman('anggota',this)">Anggota</button>
-<button onclick="bukaHalaman('iuran',this)">Iuran</button>
-<button onclick="bukaHalaman('kas',this)">Kas MMG</button>
-<button onclick="bukaHalaman('infaq',this)">Infaq</button>
-<button onclick="bukaHalaman('cuci',this)">Cuci Motor</button>
-<button onclick="bukaHalaman('bersikeras',this)">Bersikeras</button>
+
+<button
+class="active"
+onclick="bukaHalaman('dashboard',this)">
+Dashboard
+</button>
+
+<button
+onclick="bukaHalaman('anggota',this)">
+Anggota
+</button>
+
+<button
+onclick="bukaHalaman('iuran',this)">
+Iuran
+</button>
+
+<button
+onclick="bukaHalaman('kas',this)">
+Kas MMG
+</button>
+
+<button
+onclick="bukaHalaman('infaq',this)">
+Infaq
+</button>
+
+<button
+onclick="bukaHalaman('cuci',this)">
+Cuci Motor
+</button>
+
+<button
+onclick="bukaHalaman('bersikeras',this)">
+Bersikeras
+</button>
+
 </div>
 
-<!-- DASHBOARD -->
-<section id="dashboard" class="halaman">
 
+<!-- ================= DASHBOARD ================= -->
+
+<section
+id="dashboard"
+class="halaman">
+
+<div class="box">
+
+<h2>Dashboard Keuangan</h2>
+
+<div class="summary">
+
+<div>
+
+<b>Saldo Kas MMG</b>
+
+<br>
+
+<strong id="saldoKas">
+Rp0
+</strong>
+
+</div>
+
+
+<div>
+
+<b>Saldo Infaq</b>
+
+<br>
+
+<strong id="saldoInfaq">
+Rp0
+</strong>
+
+</div>
+
+
+<div>
+
+<b>Saldo Cuci Motor</b>
+
+<br>
+
+<strong id="saldoCuci">
+Rp0
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="summary">
+
+<div>
+
+<b>Saldo Bersikeras</b>
+
+<br>
+
+<strong id="saldoBersikeras">
+Rp0
+</strong>
+
+</div>
+
+
+<div>
+
+<b>Total Pemasukan Kas</b>
+
+<br>
+
+<strong id="masukKas">
+Rp0
+</strong>
+
+</div>
+
+
+<div>
+
+<b>Total Pengeluaran Kas</b>
+
+<br>
+
+<strong id="keluarKas">
+Rp0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>Ringkasan Tunggakan</h2>
+
+<div id="ringkasanTunggakan">
+Memuat...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ANGGOTA ================= -->
+
+<section
+id="anggota"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Data Anggota</h2>
+
+<div
+id="adminAnggota"
+class="hidden">
+
+<button onclick="bukaFormAnggota()">
++ Tambah Anggota
+</button>
+
+</div>
+
+<br>
+
+<div class="filters">
+
+<input
+id="cariAnggota"
+placeholder="Cari nama..."
+oninput="tampilkanAnggota()">
+
+<select
+id="filterRT"
+onchange="tampilkanAnggota()">
+
+<option value="">
+Semua RT
+</option>
+
+<option>RT 08</option>
+<option>RT 09</option>
+<option>RT 10</option>
+<option>RT 11</option>
+
+</select>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>No</th>
+<th>Nama</th>
+<th>RT</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelAnggota">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= IURAN ================= -->
+
+<section
+id="iuran"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Iuran Bulanan</h2>
+
+<div class="controls">
+
+<select
+id="bulan"
+onchange="gantiPeriode()">
+
+<option>Januari</option>
+<option>Februari</option>
+<option>Maret</option>
+<option>April</option>
+<option>Mei</option>
+<option>Juni</option>
+<option>Juli</option>
+<option selected>Agustus</option>
+<option>September</option>
+<option>Oktober</option>
+<option>November</option>
+<option>Desember</option>
+
+</select>
+
+
+<select
+id="tahun"
+onchange="gantiPeriode()">
+
+<option selected>2026</option>
+<option>2027</option>
+
+</select>
+
+</div>
+
+
+<div class="filters">
+
+<input
+id="cariIuran"
+placeholder="Cari nama..."
+oninput="tampilkanIuran()">
+
+
+<select
+id="filterRTIuran"
+onchange="tampilkanIuran()">
+
+<option value="">
+Semua RT
+</option>
+
+<option>RT 08</option>
+<option>RT 09</option>
+<option>RT 10</option>
+<option>RT 11</option>
+
+</select>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>No</th>
+<th>Nama</th>
+<th>RT</th>
+<th>Jumlah</th>
+<th>Status</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelIuran">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>Daftar Tunggakan</h2>
+
+<div id="tabelTunggakan">
+Memuat...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= KAS ================= -->
+
+<section
+id="kas"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Kas MMG</h2>
+
+<div
+id="adminKas"
+class="hidden">
+
+<button onclick="bukaFormTransaksi('kas')">
++ Tambah Transaksi
+</button>
+
+</div>
+
+<br>
+
+<div class="summary">
+
+<div>
+Pemasukan
+<br>
+<strong id="kasMasuk">Rp0</strong>
+</div>
+
+<div>
+Pengeluaran
+<br>
+<strong id="kasKeluar">Rp0</strong>
+</div>
+
+<div>
+Saldo
+<br>
+<strong id="kasSaldo">Rp0</strong>
+</div>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+<th>Jenis</th>
+<th>Nominal</th>
+<th>Keterangan</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelKas">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= INFAQ ================= -->
+
+<section
+id="infaq"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Infaq</h2>
+
+<div
+id="adminInfaq"
+class="hidden">
+
+<button onclick="bukaFormTransaksi('infaq')">
++ Tambah Transaksi
+</button>
+
+</div>
+
+<br>
+
+<div class="summary">
+
+<div>
+Pemasukan
+<br>
+<strong id="infaqMasuk">Rp0</strong>
+</div>
+
+<div>
+Pengeluaran
+<br>
+<strong id="infaqKeluar">Rp0</strong>
+</div>
+
+<div>
+Saldo
+<br>
+<strong id="infaqSaldo">Rp0</strong>
+</div>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+<th>Jenis</th>
+<th>Nominal</th>
+<th>Keterangan</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelInfaq">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CUCI MOTOR ================= -->
+
+<section
+id="cuci"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Cuci Motor</h2>
+
+<div
+id="adminCuci"
+class="hidden">
+
+<button onclick="bukaFormTransaksi('cuci')">
++ Tambah Transaksi
+</button>
+
+</div>
+
+<br>
+
+<div class="summary">
+
+<div>
+Pemasukan
+<br>
+<strong id="cuciMasuk">Rp0</strong>
+</div>
+
+<div>
+Pengeluaran
+<br>
+<strong id="cuciKeluar">Rp0</strong>
+</div>
+
+<div>
+Saldo
+<br>
+<strong id="cuciSaldo">Rp0</strong>
+</div>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+<th>Jenis</th>
+<th>Nominal</th>
+<th>Keterangan</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelCuci">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= BERSIKERAS ================= -->
+
+<section
+id="bersikeras"
+class="halaman hidden">
+
+<div class="box">
+
+<h2>Bersikeras</h2>
+
+<div
+id="adminBersikeras"
+class="hidden">
+
+<button onclick="bukaFormTransaksi('bersikeras')">
++ Tambah Transaksi
+</button>
+
+</div>
+
+<br>
+
+<div class="summary">
+
+<div>
+Pemasukan
+<br>
+<strong id="bersikerasMasuk">Rp0</strong>
+</div>
+
+<div>
+Pengeluaran
+<br>
+<strong id="bersikerasKeluar">Rp0</strong>
+</div>
+
+<div>
+Saldo
+<br>
+<strong id="bersikerasSaldo">Rp0</strong>
+</div>
+
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+<th>Jenis</th>
+<th>Nominal</th>
+<th>Keterangan</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelBersikeras">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= MODAL LOGIN ================= -->
+
+<div
+id="modalLogin"
+class="modal hidden">
+
+<div class="modal-content">
+
+<h2>Login Admin</h2>
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+id="loginEmail"
+type="email">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Password</label>
+
+<input
+id="loginPassword"
+type="password">
+
+</div>
+
+
+<button onclick="login()">
+Login
+</button>
+
+<button
+class="secondary"
+onclick="tutupModal('modalLogin')">
+Batal
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= MODAL ANGGOTA ================= -->
+
+<div
+id="modalAnggota"
+class="modal hidden">
+
+<div class="modal-content">
+
+<h2 id="judulFormAnggota">
+Tambah Anggota
+</h2>
+
+<input
+type="hidden"
+id="anggotaId">
+
+
+<div class="form-group">
+
+<label>Nama</label>
+
+<input id="namaAnggota">
+
+</div>
+
+
+<div class="form-group">
+
+<label>RT</label>
+
+<select id="rtAnggota">
+
+<option>RT 08</option>
+<option>RT 09</option>
+<option>RT 10</option>
+<option>RT 11</option>
+
+</select>
+
+</div>
+
+
+<button onclick="simpanAnggota()">
+Simpan
+</button>
+
+<button
+class="secondary"
+onclick="tutupModal('modalAnggota')">
+Batal
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= MODAL TRANSAKSI ================= -->
+
+<div
+id="modalTransaksi"
+class="modal hidden">
+
+<div class="modal-content">
+
+<h2 id="judulTransaksi">
+Tambah Transaksi
+</h2>
+
+<input
+type="hidden"
+id="transaksiId">
+
+<input
+type="hidden"
+id="transaksiKategori">
+
+
+<div class="form-group">
+
+<label>Tanggal</label>
+
+<input
+id="tanggalTransaksi"
+type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Jenis</label>
+
+<select id="jenisTransaksi">
+
+<option value="Masuk">
+Masuk
+</option>
+
+<option value="Keluar">
+Keluar
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Nominal</label>
+
+<input
+id="nominalTransaksi"
+type="number"
+min="1">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Keterangan</label>
+
+<input id="keteranganTransaksi">
+
+</div>
+
+
+<button onclick="simpanTransaksi()">
+Simpan
+</button>
+
+<button
+class="secondary"
+onclick="tutupModal('modalTransaksi')">
+Batal
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://iuebrtptddbwgfajrmrb.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_2mXlRe4EDRedMVvvbsF2zg_7hFYBNb6";
+
+
+let session = null;
+
+let dataAnggota = [];
+
+let dataIuran = [];
+
+let periodeBulan = "Agustus";
+
+let periodeTahun = 2026;
+
+
+const tabelTransaksi = {
+
+kas:"kas_transaksi",
+
+infaq:"infaq_transaksi",
+
+cuci:"cuci_motor_transaksi",
+
+bersikeras:"bersikeras_transaksi"
+
+};
+
+
+/* ================= UTILITAS ================= */
+
+function rupiah(n){
+
+return "Rp"+
+Number(n||0)
+.toLocaleString("id-ID");
+
+}
+
+
+function esc(value){
+
+return String(value??"")
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+
+function headers(auth=false){
+
+const h={
+
+"apikey":SUPABASE_KEY,
+
+"Content-Type":"application/json"
+
+};
+
+
+if(auth && session){
+
+h["Authorization"]=
+"Bearer "+session.access_token;
+
+}else{
+
+h["Authorization"]=
+"Bearer "+SUPABASE_KEY;
+
+}
+
+return h;
+
+}
+
+
+function pesan(text,type="success"){
+
+const el=
+document.getElementById("pesan");
+
+el.innerHTML=
+'<div class="'+type+'">'+
+esc(text)+
+'</div>';
+
+setTimeout(()=>{
+
+el.innerHTML="";
+
+},4000);
+
+}
+
+
+/* ================= AUTH ================= */
+
+async function login(){
+
+const email=
+document.getElementById("loginEmail")
+.value.trim();
+
+const password=
+document.getElementById("loginPassword")
+.value;
+
+
+if(!email || !password){
+
+alert("Email dan password wajib diisi.");
+
+return;
+
+}
+
+
+try{
+
+const r=await fetch(
+
+SUPABASE_URL+
+"/auth/v1/token?grant_type=password",
+
+{
+
+method:"POST",
+
+headers:{
+
+"apikey":SUPABASE_KEY,
+
+"Content-Type":
+"application/json"
+
+},
+
+body:JSON.stringify({
+
+email,
+
+password
+
+})
+
+}
+
+);
+
+
+const data=await r.json();
+
+
+if(!r.ok){
+
+throw new Error(
+
+data.error_description ||
+data.msg ||
+"Login gagal"
+
+);
+
+}
+
+
+session=data;
+
+
+const cek=await fetch(
+
+SUPABASE_URL+
+"/rest/v1/admins?select=user_id&user_id=eq."+
+encodeURIComponent(data.user.id),
+
+{
+
+headers:headers(true)
+
+}
+
+);
+
+
+if(!cek.ok){
+
+throw new Error(
+"Tidak dapat memeriksa status admin."
+);
+
+}
+
+
+const admin=await cek.json();
+
+
+if(!admin.length){
+
+session=null;
+
+throw new Error(
+"Akun ini bukan admin."
+);
+
+}
+
+
+localStorage.setItem(
+
+"mmg_session",
+
+JSON.stringify(session)
+
+);
+
+
+tutupModal("modalLogin");
+
+aturTampilanAdmin();
+
+pesan("Login admin berhasil.");
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+}
+
+
+async function cekSession(){
+
+const saved=
+localStorage.getItem("mmg_session");
+
+
+if(!saved)return;
+
+
+try{
+
+session=JSON.parse(saved);
+
+
+const r=await fetch(
+
+SUPABASE_URL+
+"/auth/v1/user",
+
+{
+
+headers:{
+
+"apikey":SUPABASE_KEY,
+
+"Authorization":
+"Bearer "+session.access_token
+
+}
+
+}
+
+);
+
+
+if(!r.ok){
+
+throw new Error();
+
+}
+
+
+}catch(e){
+
+session=null;
+
+localStorage.removeItem("mmg_session");
+
+}
+
+
+aturTampilanAdmin();
+
+}
+
+
+function logout(){
+
+session=null;
+
+localStorage.removeItem("mmg_session");
+
+aturTampilanAdmin();
+
+pesan("Logout berhasil.");
+
+}
+
+
+function aturTampilanAdmin(){
+
+const admin=!!session;
+
+
+document.getElementById("statusLogin")
+.textContent=
+admin?"Admin":"Pengunjung";
+
+
+document.getElementById("statusLogin")
+.className=
+"badge "+
+(admin?"admin":"public");
+
+
+document.getElementById("btnLogin")
+.classList.toggle(
+"hidden",
+admin
+);
+
+
+document.getElementById("btnLogout")
+.classList.toggle(
+"hidden",
+!admin
+);
+
+
+[
+"adminAnggota",
+"adminKas",
+"adminInfaq",
+"adminCuci",
+"adminBersikeras"
+].forEach(id=>{
+
+document.getElementById(id)
+.classList.toggle(
+"hidden",
+!admin
+);
+
+});
+
+}
+
+
+/* ================= NAVIGASI ================= */
+
+function bukaHalaman(id,btn){
+
+document.querySelectorAll(".halaman")
+.forEach(x=>
+x.classList.add("hidden")
+);
+
+
+document.getElementById(id)
+.classList.remove("hidden");
+
+
+document.querySelectorAll(".nav button")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+
+btn.classList.add("active");
+
+
+if(id==="dashboard")
+muatDashboard();
+
+
+if(id==="anggota")
+tampilkanAnggota();
+
+
+if(id==="iuran")
+ambilIuran();
+
+
+if(id==="kas")
+muatTransaksi("kas");
+
+
+if(id==="infaq")
+muatTransaksi("infaq");
+
+
+if(id==="cuci")
+muatTransaksi("cuci");
+
+
+if(id==="bersikeras")
+muatTransaksi("bersikeras");
+
+}
+
+
+/* ================= ANGGOTA ================= */
+
+async function ambilAnggota(){
+
+const r=await fetch(
+
+SUPABASE_URL+
+"/rest/v1/anggota?select=id,rt,nama&order=rt,nama",
+
+{
+
+headers:headers()
+
+}
+
+);
+
+
+if(!r.ok){
+
+throw new Error(
+await r.text()
+);
+
+}
+
+
+dataAnggota=await r.json();
+
+
+document.getElementById(
+"jumlahAnggota"
+).textContent=
+dataAnggota.length+
+" Orang";
+
+
+tampilkanAnggota();
+
+}
+
+
+function tampilkanAnggota(){
+
+const search=
+(
+document.getElementById(
+"cariAnggota"
+)?.value||""
+).toLowerCase();
+
+
+const rt=
+document.getElementById(
+"filterRT"
+)?.value||"";
+
+
+const hasil=
+dataAnggota.filter(a=>
+
+a.nama.toLowerCase()
+.includes(search)
+
+&&
+
+(!rt || a.rt===rt)
+
+);
+
+
+document.getElementById(
+"tabelAnggota"
+).innerHTML=
+
+hasil.map((a,i)=>`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>${esc(a.nama)}</td>
+
+<td>${esc(a.rt)}</td>
+
+<td>
+
+${
+session
+
+?
+
+`
+
+<button
+class="small"
+onclick="editAnggota(${a.id})">
+Edit
+</button>
+
+<button
+class="small danger"
+onclick="hapusAnggota(${a.id})">
+Hapus
+</button>
+
+`
+
+:
+
+"-"
+
+}
+
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+
+function bukaFormAnggota(){
+
+if(!session){
+
+alert(
+"Silakan login sebagai admin."
+);
+
+return;
+
+}
+
+
+document.getElementById(
+"judulFormAnggota"
+).textContent=
+"Tambah Anggota";
+
+
+document.getElementById(
+"anggotaId"
+).value="";
+
+
+document.getElementById(
+"namaAnggota"
+).value="";
+
+
+document.getElementById(
+"rtAnggota"
+).value="RT 08";
+
+
+document.getElementById(
+"modalAnggota"
+).classList.remove("hidden");
+
+}
+
+
+function editAnggota(id){
+
+if(!session){
+
+alert(
+"Silakan login sebagai admin."
+);
+
+return;
+
+}
+
+
+const a=
+dataAnggota.find(
+x=>Number(x.id)===Number(id)
+);
+
+
+if(!a)return;
+
+
+document.getElementById(
+"judulFormAnggota"
+).textContent=
+"Edit Anggota";
+
+
+document.getElementById(
+"anggotaId"
+).value=a.id;
+
+
+document.getElementById(
+"namaAnggota"
+).value=a.nama;
+
+
+document.getElementById(
+"rtAnggota"
+).value=a.rt;
+
+
+document.getElementById(
+"modalAnggota"
+).classList.remove("hidden");
+
+}
+
+
+async function simpanAnggota(){
+
+if(!session){
+
+alert(
+"Silakan login sebagai admin."
+);
+
+return;
+
+}
+
+
+const id=
+document.getElementById(
+"anggotaId"
+).value;
+
+
+const nama=
+document.getElementById(
+"namaAnggota"
+).value.trim();
+
+
+const rt=
+document.getElementById(
+"rtAnggota"
+).value;
+
+
+if(!nama){
+
+alert("Nama wajib diisi.");
+
+return;
+
+}
+
+
+const method=
+id?"PATCH":"POST";
+
+
+const url=id
+
+?
+
+SUPABASE_URL+
+"/rest/v1/anggota?id=eq."+id
+
+:
+
+SUPABASE_URL+
+"/rest/v1/anggota";
+
+
+const r=await fetch(
+
+url,
+
+{
+
+method,
+
+headers:{
+
+...headers(true),
+
+"Prefer":
+"return=minimal"
+
+},
+
+body:JSON.stringify({
+
+nama,
+
+rt
+
+})
+
+}
+
+);
+
+
+if(!r.ok){
+
+alert(
+"Gagal menyimpan anggota:\n"+
+await r.text()
+);
+
+return;
+
+}
+
+
+tutupModal("modalAnggota");
+
+await ambilAnggota();
+
+pesan(
+id
+?
+"Anggota berhasil diperbarui."
+:
+"Anggota berhasil ditambahkan."
+);
+
+}
+
+
+async function hapusAnggota(id){
+
+if(!session){
+
+alert(
+"Silakan login sebagai admin."
+);
+
+return;
+
+}
+
+
+if(!confirm(
+"Yakin ingin menghapus anv
 <div class="box">
 <h2>Dashboard Keuangan</h2>
 
